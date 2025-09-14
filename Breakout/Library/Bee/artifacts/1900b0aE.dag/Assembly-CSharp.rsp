@@ -428,7 +428,7 @@
 "Assets/Programas/Bloque Lodo.cs"
 "Assets/Programas/Bloque.cs"
 "Assets/Programas/Bola.cs"
-"Assets/Programas/Jugadr.cs"
+"Assets/Programas/Jugador.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0
 /deterministic

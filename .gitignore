@@ -74,3 +74,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 My project/Library/ArtifactDB
+Breakout/Library/ArtifactDB
+/Breakout/Library
