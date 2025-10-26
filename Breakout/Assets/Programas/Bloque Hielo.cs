@@ -7,9 +7,9 @@ public class BloqueHielo : Bloque
         resistencia = 2; 
     }
 
-    public override void RebotarBola()
+    public override void RebotarBola(Collision collision)
     {
-        base.RebotarBola();
+        base.RebotarBola(collision);
 
         if (resistencia == 1)
         {

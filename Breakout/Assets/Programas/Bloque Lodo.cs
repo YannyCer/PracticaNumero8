@@ -7,9 +7,9 @@ public class BloqueLodo : Bloque
         resistencia = 2;
     }
 
-    void Update()
+    public override void RebotarBola(Collision collision)
     {
-        base.RebotarBola();
+        base.RebotarBola(collision);
 
         if (resistencia == 1)
         {

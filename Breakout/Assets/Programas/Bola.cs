@@ -1,33 +1,91 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class Bola : MonoBehaviour
 {
-    public bool isGame = false;
-    [SerializeField] float velocidaBola = 10f;
+    bool isGameStarted;
+    [SerializeField] public float velocidadBola = 10.0f;
+    Vector3 ultimaPosicion = Vector3.zero;
+    Vector3 direccion = Vector3.zero;
+    Rigidbody rigidbody;
+    private ControlBorde control;
+    public UnityEvent BolaDestruida;
 
-    Rigidbody rb;
+    private void Awake()
+    {
+        control = GetComponent<ControlBorde>();
+        if (control == null) control = Camera.main.GetComponent<ControlBorde>();
+        rigidbody = GetComponent<Rigidbody>();
+    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        Vector3 posicioninicial = GameObject.FindGameObjectWithTag("Jugador").transform.position;
-        posicioninicial.y += 3;
-        this.transform.position = posicioninicial;
-        this.transform.SetParent(GameObject.FindGameObjectWithTag("Jugador").transform);
+        isGameStarted = false;
+        Vector3 posicionInicial = GameObject.FindGameObjectWithTag("Jugador").transform.position;
+        posicionInicial.y += 3;
+        transform.position = posicionInicial;
+        transform.SetParent(GameObject.FindGameObjectWithTag("Jugador").transform);
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (control.salioAbajo)
         {
-            isGame = true;
-            this.transform.SetParent(null);
-            rb.linearVelocity = velocidaBola * Vector3.up;
+            BolaDestruida.Invoke();
+            Destroy(gameObject);
+        }
+
+        if (control.salioArriba)
+        {
+            direccion = transform.position - ultimaPosicion;
+            direccion.y *= -1;
+            direccion = direccion.normalized;
+            rigidbody.linearVelocity = velocidadBola * direccion;
+            control.salioArriba = false;
+            control.enabled = false;
+            Invoke("HabilitarControl", 0.5f);
+        }
+
+        if (control.salioIzquierda)
+        {
+            direccion = transform.position - ultimaPosicion;
+            direccion.x *= -1;
+            direccion = direccion.normalized;
+            rigidbody.linearVelocity = velocidadBola * direccion;
+            control.salioIzquierda = false;
+            control.enabled = false;
+            Invoke("HabilitarControl", 0.5f);
+        }
+
+        if (control.salioDerecha)
+        {
+            direccion = transform.position - ultimaPosicion;
+            direccion.x *= -1;
+            direccion = direccion.normalized;
+            rigidbody.linearVelocity = velocidadBola * direccion;
+            control.salioDerecha = false;
+            control.enabled = false;
+            Invoke("HabilitarControl", 0.5f);
+        }
+
+        if (Input.GetKey(KeyCode.Space) || Input.GetButton("Submit"))
+        {
+            if (!isGameStarted)
+            {
+                isGameStarted = true;
+                transform.SetParent(null);
+                rigidbody.linearVelocity = velocidadBola * Vector3.up;
+            }
         }
     }
 
-    public void ResetearBola()
+    private void HabilitarControl()
     {
+        control.enabled = true;
+    }
 
+    private void FixedUpdate()
+    {
+        ultimaPosicion = transform.position;
     }
 }

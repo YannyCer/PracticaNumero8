@@ -8,6 +8,16 @@ public class Jugadr : MonoBehaviour
     Vector3 mousePos2d;
     Vector3 mousePos3d;
 
+     public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Bola")
+        {
+            Vector3 direccion = collision.contacts[0].point - transform.position;
+            direccion = direccion.normalized;
+            collision.rigidbody.linearVelocity = collision.gameObject.GetComponent<Bola>().velocidadBola * direccion;
+        }
+    }
+
     void Update()
     {  
         Vector3 pos = transform.position;

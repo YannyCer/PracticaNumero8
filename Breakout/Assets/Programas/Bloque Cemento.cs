@@ -7,8 +7,8 @@ public class BloqueCemento : Bloque
         resistencia = 5; 
     }
 
-    public override void RebotarBola()
+    public override void RebotarBola(Collision collision)
     {
-        base.RebotarBola();
+        base.RebotarBola(collision);
      }
 }
